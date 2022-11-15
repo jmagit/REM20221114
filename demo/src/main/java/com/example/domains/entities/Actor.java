@@ -2,6 +2,11 @@ package com.example.domains.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
@@ -23,12 +28,18 @@ public class Actor implements Serializable {
 	private int actorId;
 
 	@Column(name="first_name", nullable=false, length=45)
+	@NotBlank
+	@Size(max = 45, min=2)
+	@Pattern(regexp = "^[A-Z]+$", message = "Tiene que estar en mayusculas")
 	private String firstName;
 
 	@Column(name="last_name", nullable=false, length=45)
+	@NotBlank
+	@Size(max = 45, min=2)
 	private String lastName;
 
 	@Column(name="last_update", insertable=false, updatable=false, nullable=false)
+	@PastOrPresent
 	private Timestamp lastUpdate;
 
 	//bi-directional many-to-one association to FilmActor
