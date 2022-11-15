@@ -1,5 +1,7 @@
 package com.example;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,6 +22,7 @@ public class DemoApplication implements CommandLineRunner {
 	ActorRepository dao;
 	
 	@Override
+	@Transactional
 	public void run(String... args) throws Exception {
 		System.out.println("Arranque completado");
 		
@@ -36,11 +39,21 @@ public class DemoApplication implements CommandLineRunner {
 //		dao.findAll().forEach(System.out::println);
 //		dao.findTop5ByFirstNameStartingWithOrderByLastNameDesc("p").forEach(System.out::println);
 //		dao.findTop5ByFirstNameStartingWith("p", Sort.by("firstName").descending()).forEach(System.out::println);
-		dao.findByActorIdGreaterThanEqual(200).forEach(System.out::println);
-		dao.findNovedadesJPQL(200).forEach(System.out::println);
-		dao.findNovedadesSQL(200).forEach(System.out::println);
-		dao.findAll((root, query, builder) -> builder.greaterThanOrEqualTo(root.get("actorId"), 200)).forEach(System.out::println);
-		dao.findAll((root, query, builder) -> builder.lessThanOrEqualTo(root.get("actorId"), 10)).forEach(System.out::println);
+//		dao.findByActorIdGreaterThanEqual(200).forEach(System.out::println);
+//		dao.findNovedadesJPQL(200).forEach(System.out::println);
+//		dao.findNovedadesSQL(200).forEach(System.out::println);
+//		dao.findAll((root, query, builder) -> builder.greaterThanOrEqualTo(root.get("actorId"), 200)).forEach(System.out::println);
+//		dao.findAll((root, query, builder) -> builder.lessThanOrEqualTo(root.get("actorId"), 10)).forEach(System.out::println);
+		
+		var item = dao.findById(1);
+		if(item.isPresent()) {
+			var actor = item.get();
+			System.out.println(actor);
+			actor.getFilmActors().forEach(p -> System.out.println(p.getFilm().getTitle()));
+		} else {
+			System.out.println("No encontrado");
+		}
+		
 	}
 
 }
