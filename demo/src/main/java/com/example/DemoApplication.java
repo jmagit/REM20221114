@@ -10,6 +10,8 @@ import org.springframework.data.domain.Sort;
 
 import com.example.domains.contracts.repositories.ActorRepository;
 import com.example.domains.entities.Actor;
+import com.example.domains.entities.dtos.ActorDTO;
+import com.example.domains.entities.dtos.ActorShort;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
@@ -53,7 +55,19 @@ public class DemoApplication implements CommandLineRunner {
 //		} else {
 //			System.out.println("No encontrado");
 //		}
-		
+//		var actor = new Actor(217, null, "12345678z");
+//		if(actor.isValid()) {
+//			dao.save(actor);
+//			dao.findAll().forEach(System.out::println);
+//		} else {
+//			System.out.println(actor.getErrorsMessage());
+//		}
+//		var dto = new ActorDTO(217, null, "12345678z");
+//		dao.findAll().forEach(p -> System.out.println(ActorDTO.from(p)));
+//		dao.dameTodosDto().forEach(System.out::println);
+//		dao.dameTodosCorto().forEach(p -> System.out.println(p.getActorId() + " - " + p.getNombre()));
+		dao.findBy(ActorDTO.class).forEach(System.out::println);
+//		dao.findBy(ActorShort.class).forEach(p -> System.out.println(p.getNombre() + " - " + p.getActorId()));
 	}
 
 }
