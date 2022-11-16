@@ -2,6 +2,10 @@ package com.example.domains.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
@@ -51,11 +55,13 @@ public class Film implements Serializable {
 	//bi-directional many-to-one association to Language
 	@ManyToOne
 	@JoinColumn(name="language_id", nullable=false)
+	@JsonManagedReference
 	private Language language;
 
 	//bi-directional many-to-one association to Language
 	@ManyToOne
 	@JoinColumn(name="original_language_id")
+	@JsonManagedReference
 	private Language languageVO;
 
 	//bi-directional many-to-one association to FilmActor
@@ -64,10 +70,12 @@ public class Film implements Serializable {
 
 	//bi-directional many-to-one association to FilmCategory
 	@OneToMany(mappedBy="film", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
 	private List<FilmCategory> filmCategories;
 
 	//bi-directional many-to-one association to Inventory
 	@OneToMany(mappedBy="film")
+	@JsonIgnore
 	private List<Inventory> inventories;
 
 	public Film() {
