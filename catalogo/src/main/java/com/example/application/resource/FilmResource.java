@@ -195,7 +195,7 @@ public class FilmResource {
 			throw new InvalidDataException(rslt.getErrorsString(), rslt.getErrorsFields());
 		if (dao.findById(item.getFilmId()).isPresent())
 			throw new InvalidDataException("Duplicate key");
-		var f = dao.save(rslt);
+		dao.save(rslt);
 		item.getActors().stream().forEach(id -> rslt.addFilmActor(new Actor(id)));
 		item.getCategories().stream().forEach(id -> rslt.addFilmCategory(new Category(id)));
 		dao.save(rslt);
