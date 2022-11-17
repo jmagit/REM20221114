@@ -1,11 +1,16 @@
 package com.example;
 
+import java.util.TreeMap;
+
 import javax.transaction.Transactional;
 
+import org.springdoc.core.customizers.OpenApiCustomiser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Sort;
@@ -18,23 +23,32 @@ import com.example.domains.entities.dtos.ActorDTO;
 import com.example.domains.entities.dtos.ActorShort;
 
 @SpringBootApplication
+@EnableFeignClients("com.example.application.proxies")
 public class DemoApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-//	@Bean
-//	@Primary
-//	public RestTemplate restTemplate() {
-//		return new RestTemplate();
-//	}
-//
-//	@Bean
-//	@LoadBalanced
-//	public RestTemplate restTemplateLB() {
-//		return new RestTemplate();
-//	}
+	@Bean
+	public OpenApiCustomiser sortSchemasAlphabetically() {
+	    return openApi -> {
+	        var schemas = openApi.getComponents().getSchemas();
+	        openApi.getComponents().setSchemas(new TreeMap<>(schemas));
+	    };
+	}
+
+	@Bean
+	@Primary
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
+
+	@Bean
+	@LoadBalanced
+	public RestTemplate restTemplateLB() {
+		return new RestTemplate();
+	}
 //
 //	@Bean
 //	public ReactorLoadBalancer<ServiceInstance> randomLoadBalancer(Environment environment,
