@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Sort;
+import org.springframework.web.client.RestTemplate;
 
 import com.example.domains.contracts.repositories.ActorRepository;
 import com.example.domains.contracts.services.ActorService;
@@ -20,6 +23,27 @@ public class DemoApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
+
+//	@Bean
+//	@Primary
+//	public RestTemplate restTemplate() {
+//		return new RestTemplate();
+//	}
+//
+//	@Bean
+//	@LoadBalanced
+//	public RestTemplate restTemplateLB() {
+//		return new RestTemplate();
+//	}
+//
+//	@Bean
+//	public ReactorLoadBalancer<ServiceInstance> randomLoadBalancer(Environment environment,
+//			LoadBalancerClientFactory loadBalancerClientFactory) {
+//		String name = environment.getProperty(LoadBalancerClientFactory.PROPERTY_NAME);
+//		name = "CATALOGO-SERVICE";
+//		return new RandomLoadBalancer(
+//				loadBalancerClientFactory.getLazyProvider(name, ServiceInstanceListSupplier.class), name);
+//	}
 
 	@Autowired
 	ActorRepository dao;
