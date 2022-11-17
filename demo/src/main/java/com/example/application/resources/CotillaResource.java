@@ -45,10 +45,10 @@ public class CotillaResource {
 
 	@GetMapping(path = "/pelis/rt")
 	public List<PelisDto> getPelisRT() {
-		ResponseEntity<List<PelisDto>> response = srv.exchange(
-				"http://localhost:8010/v1/peliculas?mode=short", 
-//		ResponseEntity<List<PelisDto>> response = srvLB.exchange(
-//				"lb://CATALOGO-SERVICE/v1/peliculas?mode=short", 
+//		ResponseEntity<List<PelisDto>> response = srv.exchange(
+//				"http://localhost:8010/peliculas/v1?mode=short", 
+		ResponseEntity<List<PelisDto>> response = srvLB.exchange(
+				"lb://CATALOGO-SERVICE/peliculas/v1?mode=short", 
 				HttpMethod.GET,
 				HttpEntity.EMPTY, 
 				new ParameterizedTypeReference<List<PelisDto>>() {}
@@ -57,8 +57,8 @@ public class CotillaResource {
 	}
 	@GetMapping(path = "/pelis/{id}/rt")
 	public PelisDto getPelisRT(@PathVariable int id) {
-		return srvLB.getForObject("lb://CATALOGO-SERVICE/v1/peliculas/{key}?mode=short", PelisDto.class, id);
-//		return srv.getForObject("http://localhost:8010/v1/peliculas/{key}?mode=short", PelisDto.class, id);
+		return srvLB.getForObject("lb://CATALOGO-SERVICE/peliculas/v1/{key}?mode=short", PelisDto.class, id);
+//		return srv.getForObject("http://localhost:8010/peliculas/v1/{key}?mode=short", PelisDto.class, id);
 	}
 	@GetMapping(path = "/balancea/rt")
 //	@SecurityRequirement(name = "bearerAuth")
