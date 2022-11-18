@@ -9,8 +9,10 @@ import org.springframework.amqp.rabbit.AsyncRabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,6 +28,7 @@ public class EmisorResource {
     private DirectExchange exchange;
 
 	@GetMapping(path = "/saludo/{nombre}")
+	@ResponseStatus(HttpStatus.ACCEPTED)
 	public String saluda(@PathVariable String nombre) {
 		String msg = "Hola " + nombre;
 		amqp.convertAndSend("demo.saludos", new MessageDTO(msg, origen));
